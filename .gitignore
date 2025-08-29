@@ -1,0 +1,28 @@
+# --- Local/private config ---
+config.php
+config.inc.php
+.env
+
+# --- Logs / cache / temp ---
+logs/
+*.log
+*.tmp
+*.cache
+
+# --- Generated reports/stats/uploads ---
+reports/
+stats/
+uploads/
+
+# --- IDE/editor junk ---
+.vs/
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Dependencies ---
+node_modules/
+vendor/
