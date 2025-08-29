@@ -1,38 +1,30 @@
 <?php
-// FreshPC Cloud Configuration (MySQL for ISPConfig production, PostgreSQL for Replit dev)
+// config.php v4 | est lines: ~18
+// FreshPC Cloud Configuration - Production MySQL/ISPConfig
 
-// Force MySQL for production environment (ISPConfig)
-// Only use PostgreSQL in Replit development
-if (getenv('REPLIT_ENV') || strstr(__DIR__, '/home/runner/')) {
-    // Replit development environment - use PostgreSQL
-    $databaseUrl = $_SERVER['DATABASE_URL'] ?? getenv('DATABASE_URL');
-    if ($databaseUrl && strpos($databaseUrl, 'postgresql') !== false) {
-        $dbUrl = parse_url($databaseUrl);
-        define('DB_TYPE', 'pgsql');
-        define('DB_HOST', $dbUrl['host']);
-        define('DB_PORT', $dbUrl['port'] ?? '5432');
-        define('DB_NAME', ltrim($dbUrl['path'], '/'));
-        define('DB_USER', $dbUrl['user']);
-        define('DB_PASS', $dbUrl['pass'] ?? '');
-    } else {
-        // Replit fallback
-        define('DB_TYPE', 'pgsql');
-        define('DB_HOST', 'ep-dry-snowflake-a5klqzep.us-east-2.aws.neon.tech');
-        define('DB_PORT', '5432');
-        define('DB_NAME', 'neondb');
-        define('DB_USER', 'neondb_owner');
-        define('DB_PASS', 'npg_ejzdV4AH2sDU');
-    }
-} else {
-    // Production MySQL/ISPConfig environment (ALWAYS MySQL)
-    define('DB_TYPE', 'mysql');
-    define('DB_HOST', 'localhost');
-    define('DB_PORT', '3306');
-    define('DB_NAME', 'c2freshdb');
-    define('DB_USER', 'c2freshdbu');
-    define('DB_PASS', 'rn@iC3HS');
+// Production MySQL configuration for ISPConfig
+define('DB_TYPE', 'mysql');
+define('DB_HOST', 'localhost');
+define('DB_PORT', '3306');
+define('DB_NAME', 'db');
+define('DB_USER', 'uesr');
+define('DB_PASS', 'password');
+
+// --- PDO connection setup ---
+$dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
+
+try {
+    $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
 }
 
+// --- rest of your config unchanged below ---
 define('MAIL_FROM', 'noreply@freshpccloud.nl');
 define('MAIL_FROM_NAME', 'FreshPC Cloud');
 define('MAIL_HOST', 'localhost');
