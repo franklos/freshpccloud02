@@ -7,7 +7,7 @@ define('DB_TYPE', 'mysql');
 define('DB_HOST', 'localhost');
 define('DB_PORT', '3306');
 define('DB_NAME', 'db');
-define('DB_USER', 'uesr');
+define('DB_USER', 'user');
 define('DB_PASS', 'password');
 
 // --- PDO connection setup ---
